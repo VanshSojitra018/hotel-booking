@@ -18,7 +18,7 @@ app.use("/api/clerk",clerkWebhooks)
 
 app.use(cors()); //Enable Cross-Origin Resource Sharing
 
-app.get("/", (req, res) => res.send("API is Working"));
+app.get("/", (req, res) => res.send("API is Working........c"));
 
 const PORT = process.env.PORT || 3000;
 
