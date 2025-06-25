@@ -11,14 +11,18 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cors());
+
+// ✅ Webhooks need to be handled BEFORE clerkMiddleware
+app.post("/api/clerk", clerkWebhooks);
+
+// Clerk auth middleware (optional for other routes)
 app.use(clerkMiddleware());
 
-// API to listen to clerk webhooks
-app.use("/api/clerk",clerkWebhooks)
 
 app.use(cors()); //Enable Cross-Origin Resource Sharing
 
-app.get("/", (req, res) => res.send("API is Working........c"));
+app.get("/", (req, res) => res.send("API is Working"));
 
 const PORT = process.env.PORT || 3000;
 

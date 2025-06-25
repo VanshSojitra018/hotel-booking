@@ -24,6 +24,7 @@ const clerkWebhooks = async (req, res) => {
       email: data.email_address[0].email_address,
       username: data.first_name + " " + data.last_name,
       image: data.image_url,
+      recentSearchedCity: [],
     };
 
     // Switch Cases for differernt Events
@@ -38,7 +39,7 @@ const clerkWebhooks = async (req, res) => {
         break;
       }
       case "user.deleted": {
-       await User.findByIdAndDelete(data.id);
+        await User.findByIdAndDelete(data.id);
         break;
       }
       default:
@@ -49,8 +50,9 @@ const clerkWebhooks = async (req, res) => {
       message: "webhook Recieved",
     });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error("❌ Webhook error:", error); // log full error
+    console.log("📩 Received Clerk Webhook: ", req.body);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
