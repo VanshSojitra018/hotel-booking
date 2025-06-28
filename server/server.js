@@ -26,7 +26,7 @@ app.get("/", (req, res) => res.send("API is Working"));
 
 app.get("/all-user", async (req, res) => {
   try {
-    data = await User.find([]);
+    const data = await User.find();
     res.status(200).json({ success: true, data: data });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
