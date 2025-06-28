@@ -5,7 +5,6 @@ import connectDB from "./configs/db.js";
 import { clerkMiddleware } from "@clerk/express";
 import clerkWebhooks from "./controllers/clerkWebhooks.js";
 
-connectDB();
 
 const app = express();
 
@@ -24,6 +23,18 @@ app.use(cors()); //Enable Cross-Origin Resource Sharing
 
 app.get("/", (req, res) => res.send("API is Working"));
 
+app.get("/all-user", async (req, res) => {
+  try {
+    data = await User.find([]);
+    res.status(200).json({ success: true, data: data });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, async () => {
+  await connectDB();
+  console.log(`Server running on port ${PORT}`);
+});
